@@ -73,7 +73,7 @@ module sys_top
 	//output  [5:0] VGA_G,
 	//output  [5:0] VGA_B,
 	//inout         VGA_HS,
-	//output		  VGA_VS,
+	//output		    VGA_VS,
 	//input         VGA_EN,  // active low
 
 	/////////// AUDIO //////////
@@ -133,6 +133,10 @@ wire VGA_HS;
 wire VGA_VS = 1'b1;
 wire VGA_EN = 1'b1;
 
+assign VGA_R = 6'b000000;
+assign VGA_G = 6'b000000;
+assign VGA_B = 6'b000000;
+
 wire [3:0] SDIO_DAT;
 wire SDIO_CMD = 1'b1;
 wire [6:0] USER_IO;
@@ -147,12 +151,11 @@ wire SD_CS, SD_CLK, SD_MOSI, SD_MISO, SD_CD;
 
 `ifndef MISTER_DUAL_SDRAM
 	assign SD_CD       = mcp_en ? mcp_sdcd : SDCD_SPDIF;
-   assign SD_MISO     = SD_CD | (mcp_en ? SD_SPI_MISO : (VGA_EN | SDIO_DAT[0]));
+	assign SD_MISO     = SD_CD | (mcp_en ? SD_SPI_MISO : (VGA_EN | SDIO_DAT[0]));
 	assign SD_SPI_CS   = mcp_en ?  (mcp_sdcd  ? 1'bZ : SD_CS) : (sog & ~cs1 & ~VGA_EN) ? 1'b1 : 1'bZ;
 	assign SD_SPI_CLK  = (~mcp_en | mcp_sdcd) ? 1'bZ : SD_CLK;
 	assign SD_SPI_MOSI = (~mcp_en | mcp_sdcd) ? 1'bZ : SD_MOSI;
 	assign {SDIO_CLK,SDIO_CMD,SDIO_DAT} = av_dis ? 6'bZZZZZZ : (mcp_en | (SDCD_SPDIF & ~SW[2])) ? {vga_g,vga_r,vga_b} : {SD_CLK,SD_MOSI,SD_CS,3'bZZZ};
-
 `else
 	assign SD_CD       = mcp_sdcd;
 	assign SD_MISO     = mcp_sdcd | SD_SPI_MISO;
@@ -1538,6 +1541,7 @@ assign SDCD_SPDIF = (mcp_en & ~spdif) ? 1'b0 : 1'bZ;
 	assign AUDIO_L     = av_dis ? 1'bZ : (SW[0] | mcp_en) ? HDMI_SCLK  : analog_l;
 `endif
 
+//Senhor: Assigned to 1'b0 instead of clk_audio to fix the audio issues.
 assign HDMI_MCLK = 1'b0;
 wire clk_audio;
 
