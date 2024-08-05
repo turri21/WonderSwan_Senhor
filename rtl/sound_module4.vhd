@@ -23,7 +23,7 @@ entity sound_module4 is
       RegBus_Dout    : out std_logic_vector(BUS_buswidth-1 downto 0);   
 
       sampleRequest  : out std_logic := '0';
-      sampleposReq   : out unsigned(4 downto 0) := (others => '0');
+      sampleposReq   : buffer unsigned(4 downto 0) := (others => '0');
       channelData    : in  unsigned(3 downto 0);
       channelValid   : in  std_logic;
       
@@ -58,12 +58,16 @@ architecture arch of sound_module4 is
    signal pitchCount   : unsigned(10 downto 0);
    signal nextData     : unsigned(3 downto 0);
    signal lfsrOut      : std_logic;
+	signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq
    
    -- savestates
    signal SS_SOUND4      : std_logic_vector(REG_SAVESTATE_SOUND4.upper downto REG_SAVESTATE_SOUND4.lower);
    signal SS_SOUND4_BACK : std_logic_vector(REG_SAVESTATE_SOUND4.upper downto REG_SAVESTATE_SOUND4.lower);
 
 begin 
+
+   -- Senhor: Assign internal signals to output ports
+   sampleposReq <= sampleposReq_internal;
 
    iREG_SND_CH_PITCH_L : entity work.eReg generic map ( REG_SND_CH4_PITCH_L  ) port map (clk, RegBus_Din, RegBus_Adr, RegBus_wren, RegBus_rst, reg_wired_or(0), SND_CH_PITCH( 7 downto 0), SND_CH_PITCH( 7 downto 0));  
    iREG_SND_CH_PITCH_H : entity work.eReg generic map ( REG_SND_CH4_PITCH_H  ) port map (clk, RegBus_Din, RegBus_Adr, RegBus_wren, RegBus_rst, reg_wired_or(1), SND_CH_PITCH(10 downto 8), SND_CH_PITCH(10 downto 8));  
@@ -100,7 +104,7 @@ begin
             SND_NOISE     <= SS_SOUND4(19 downto 15);  
             SND_RANDOM    <= SS_SOUND4(14 downto  0);  
       
-            sampleposReq  <= (others => '0');           
+            sampleposReq_internal <= (others => '0'); -- Senhor:          
             soundoutL     <= (others => '0');
             soundoutR     <= (others => '0');
             sampleRequest <= '1';
@@ -128,7 +132,7 @@ begin
                   
                else
                   sampleRequest <= '1';
-                  sampleposReq  <= sampleposReq + 1;
+                  sampleposReq_internal <= sampleposReq_internal + 1; -- Senhor:
                   soundoutL     <= signed('0' & (nextData * unsigned(SND_CH_Vol(7 downto 4))));
                   soundoutR     <= signed('0' & (nextData * unsigned(SND_CH_Vol(3 downto 0))));
                end if;

@@ -20,6 +20,7 @@ entity sound_module1 is
 
       sampleRequest  : out std_logic := '0';
       sampleposReq   : out unsigned(4 downto 0) := (others => '0');
+
       channelData    : in  unsigned(3 downto 0);
       channelValid   : in  std_logic;
       
@@ -40,14 +41,20 @@ architecture arch of sound_module1 is
    -- internal         
    signal pitchCount   : unsigned(10 downto 0);
    signal nextData     : unsigned(3 downto 0);
+   signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq
 
 begin 
 
+   -- Senhor: Assign internal signals to output ports
+   sampleposReq <= sampleposReq_internal; 
+
+	
    iREG_SND_CH_PITCH_L : entity work.eReg generic map ( REG_SND_CH1_PITCH_L  ) port map (clk, RegBus_Din, RegBus_Adr, RegBus_wren, RegBus_rst, reg_wired_or(0), SND_CH_PITCH( 7 downto 0), SND_CH_PITCH( 7 downto 0));  
    iREG_SND_CH_PITCH_H : entity work.eReg generic map ( REG_SND_CH1_PITCH_H  ) port map (clk, RegBus_Din, RegBus_Adr, RegBus_wren, RegBus_rst, reg_wired_or(1), SND_CH_PITCH(10 downto 8), SND_CH_PITCH(10 downto 8));  
    iREG_SND_CH_Vol     : entity work.eReg generic map ( REG_SND_CH1_Vol      ) port map (clk, RegBus_Din, RegBus_Adr, RegBus_wren, RegBus_rst, reg_wired_or(2), SND_CH_Vol               , SND_CH_Vol               );  
-   
-   process (reg_wired_or)
+   	
+	
+	process (reg_wired_or)
       variable wired_or : std_logic_vector(7 downto 0);
    begin
       wired_or := reg_wired_or(0);
@@ -64,11 +71,11 @@ begin
       
          if (reset = '1') then
       
-            sampleposReq  <= (others => '0');           
+            sampleposReq_internal <= (others => '0'); -- Senhor:          
             soundoutL     <= (others => '0');
             soundoutR     <= (others => '0');
-            sampleRequest <= '1';
-            
+            sampleRequest         <= '1';
+				
             pitchCount    <= (others => '0');
             nextData      <= (others => '0');
             
@@ -79,7 +86,7 @@ begin
             if (newPitchCount = unsigned(SND_CH_PITCH)) then
                sampleRequest <= '1';
                pitchCount    <= (others => '0');
-               sampleposReq  <= sampleposReq + 1;
+               sampleposReq_internal <= sampleposReq_internal + 1; -- Senhor: 
                soundoutL     <= signed('0' & (nextData * unsigned(SND_CH_Vol(7 downto 4))));
                soundoutR     <= signed('0' & (nextData * unsigned(SND_CH_Vol(3 downto 0))));
             end if;
