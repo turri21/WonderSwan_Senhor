@@ -1,27 +1,3 @@
--=(WonderSwan_Senhor notes)=-
-
-Tested: Working Video 720p, 1080p & Sound
-
-
-
-Update:
-
-Updated framework
-
-Fixes in: 
-
-         /rtl/sound_module1.vhd
-
-         /rtl/sound_module2.vhd
-         
-         /rtl/sound_module3.vhd
-         
-         /rtl/sound_module4.vhd
-
-signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq    
-
-sampleposReq <= sampleposReq_internal; -- Senhor: Assign internal signals to output ports
-
 # [WonderSwan](https://en.wikipedia.org/wiki/WonderSwan) for [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 
 
