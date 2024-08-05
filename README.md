@@ -8,7 +8,9 @@ Update:
 
 Updated framework
 
-Fixes in /rtl/sound_module1.vhd
+Fixes in: 
+
+         /rtl/sound_module1.vhd
 
          /rtl/sound_module2.vhd
          
@@ -18,8 +20,7 @@ Fixes in /rtl/sound_module1.vhd
 
 signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq    
 
--- Senhor: Assign internal signals to output ports
-   sampleposReq <= sampleposReq_internal;
+sampleposReq <= sampleposReq_internal; -- Senhor: Assign internal signals to output ports
 
 # [WonderSwan](https://en.wikipedia.org/wiki/WonderSwan) for [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 
