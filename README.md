@@ -9,8 +9,11 @@ Update:
 Updated framework
 
 Fixes in /rtl/sound_module1.vhd
+
          /rtl/sound_module2.vhd
+         
          /rtl/sound_module3.vhd
+         
          /rtl/sound_module4.vhd
 
 signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq    
