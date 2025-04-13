@@ -23,7 +23,7 @@ signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal
 sampleposReq <= sampleposReq_internal; -- Senhor: Assign internal signals to output ports
 
 
-You need to add Bootrom files for WonderSwan, WonderSwan Color and Pocket Challenge V2 to the respective folers:  
+You need to add Bootrom files for WonderSwan, WonderSwan Color and Pocket Challenge V2 to their respective folders:  
 
 boot.rom -> WonderSwan
 
