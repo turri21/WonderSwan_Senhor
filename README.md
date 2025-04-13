@@ -26,12 +26,17 @@ sampleposReq <= sampleposReq_internal; -- Senhor: Assign internal signals to out
 You need to copy the 2x Bootrom files for WonderSwan, WonderSwan Color and Pocket Challenge V2 to their respective folders:  
 
 boot.rom -> WonderSwan
+
 boot1.rom -> WonderSwan
 
+
 boot.rom -> WonderSwanColor
+
 boot1.rom -> WonderSwanColor
 
+
 boot.rom -> PocketChallengeV2
+
 boot1.rom -> PocketChallengeV2
 
 ___
