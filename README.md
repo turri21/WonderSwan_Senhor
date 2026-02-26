@@ -1,37 +1,3 @@
--=(WonderSwan_Senhor notes)=-
-
-Tested: Working Video 720p, 1080p & Sound.
-
-Dev notes: Rework in WonderSwan.sdc (similar to PSX.sdc). It fixes the audio crackles.
-
----
-Old updates & fixes not needed any more in the new version.
-
-Update:
-
-Updated framework
-
-Fixes in: 
-
-         /rtl/sound_module1.vhd
-
-         /rtl/sound_module2.vhd
-         
-         /rtl/sound_module3.vhd
-         
-         /rtl/sound_module4.vhd
-
-signal sampleposReq_internal : unsigned(4 downto 0);  -- Senhor: Internal signal for sampleposReq    
-
-sampleposReq <= sampleposReq_internal; -- Senhor: Assign internal signals to output ports
-
-
-Requirements:
-
-You need to copy the 2x Bootrom files (boot.rom and boot1.rom) for WonderSwan, WonderSwan Color and Pocket Challenge V2 to their respective folders.
-
-___
-
 # [WonderSwan](https://en.wikipedia.org/wiki/WonderSwan) for [MiSTer Platform](https://github.com/MiSTer-devel/Main_MiSTer/wiki)
 
 
